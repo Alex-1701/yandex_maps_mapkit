@@ -11,17 +11,14 @@ let package = Package(
     products: [
         .library(
             name: "yandex-maps-mapkit",
-            targets: ["yandex_maps_mapkit"]
+            targets: ["yandex_maps_mapkit", "YandexMapsMobileResources"]
         ),
-    ],
-    dependencies: [
-        .package(id: "yandexmapsmobile.YandexMapsMobile", exact: ""),
     ],
     targets: [
         .target(
             name: "yandex_maps_mapkit",
             dependencies: [
-                .product(name: "YandexMapsMobile", package: "yandexmapsmobile.YandexMapsMobile"),
+                "YandexMapsMobile",
             ],
             linkerSettings: [
                 .linkedFramework("CoreFoundation"),
@@ -41,6 +38,16 @@ let package = Package(
                 .linkedLibrary("c++"),
                 .unsafeFlags(["-ObjC", "-all_load"]),
             ]
+        ),
+        .binaryTarget(
+            name: "YandexMapsMobile",
+            url: "https://maps-ios-pods-public.s3.yandex.net/YandexMapsMobile-4.41.0-full-flutter.framework.zip",
+            checksum: "7cda0c534c8f4759624ef287029198a5cb095d3fa9c01d4bad3141580e1bb923"
+        ),
+        .target(
+            name: "YandexMapsMobileResources",
+            path: "Resources",
+            resources: [.process("Contents")]
         ),
     ]
 )
